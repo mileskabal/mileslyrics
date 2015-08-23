@@ -1,0 +1,157 @@
+/*
+*{
+margin:0;
+padding:0;
+}
+body{
+font-family:Verdana;
+font-size:12px;
+}
+h1{
+margin: 10px;
+}
+h2,h3{
+margin: 10px 0;
+}
+*/
+body{
+    margin:15px;
+}
+
+/* The CSS */
+select,input {
+    padding:3px;
+    margin: 5px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    border:1px solid #CCCCCC;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    background:none;
+}
+select{
+    cursor:pointer;
+    color:#000;
+    background-color: #FFFFFF;
+}
+input[type=button]{
+    cursor:pointer;
+    color:#000;
+    background-color: #666;
+}
+input[type=text]{
+    color:#000;
+    background-color: #FFFFFF;
+}
+input[disabled],select[disabled]{
+    color:#666;
+    background-color: #DDDDDD;
+}
+
+#wrapper{
+}
+
+#menu{
+float:left;
+width:20%;
+}
+.jumbotron p {
+    font-size: 13px;
+}
+#menu ul.artist li.artist > a{
+background: url(../img/artist.png) 8px 11px no-repeat, linear-gradient(#484e55, #3a3f44 60%, #313539);
+padding: 10px 40px;
+}
+#menu ul.artist li.artist.active > a,#menu ul.artist li.artist > a:hover{
+background: url(../img/artist.png) 8px 11px no-repeat, linear-gradient(#020202, #101112 40%, #191b1d);
+}
+
+#menu ul.album li.album{
+padding-left:10px;
+}
+#menu ul.album li.album > a{
+    background: url(../img/album.png) 8px 11px no-repeat, linear-gradient(#484e55, #3a3f44 60%, #313539);
+    padding: 10px 33px;
+}
+#menu ul.album li.album.active > a,#menu ul.album li.album > a:hover{
+    background: url(../img/album.png) 8px 11px no-repeat, linear-gradient(#222, #333 40%, #222);
+}
+#menu ul.track li.track{
+padding-left:20px;
+}
+#menu ul.track li.track a{
+    padding: 2px 25px;
+    background: url(../img/track.png) 7px 4px no-repeat, linear-gradient(#444, #555 40%, #444);
+    /*background-image: linear-gradient(#444, #555 40%, #444);*/
+}
+#menu ul.track li.track a.empty{
+    color:#888;
+}
+#menu ul.track li.track.active a, #menu ul.track li.track a:hover{
+    background: url(../img/track.png) 7px 4px no-repeat, linear-gradient(#000, #222 40%, #000);
+    /*background-image: linear-gradient(#000, #222 40%, #000);*/
+}
+#menu ul.track li.track.active a.empty, #menu ul.track li.track a.empty:hover{
+    background: url(../img/track.png) 7px 4px no-repeat, linear-gradient(#444, #555 40%, #444);
+}
+.jumbotron {
+    padding-top: 10px;
+}
+
+/*
+#menu ul li{
+list-style-type: none;
+}
+#menu ul.artist{
+width:300px;
+margin:10px;
+}
+#menu ul.artist li.artist > span{
+display:block;
+height:25px;
+line-height:25px;
+font-weight:bold;
+font-size:14px;
+}
+#menu ul.album li.album{
+padding-left:10px;
+}
+#menu ul.album li.album > span{
+display:block;
+height:25px;
+line-height:25px;
+font-weight:bold;
+color:#777;
+}
+#menu ul.track li.track{
+padding-left:20px;
+}
+#menu ul.track li.track a, #menu ul.track li.track span{
+display:block;
+height:25px;
+line-height:25px;
+text-decoration:none;
+color:blue;
+overflow:hidden;
+}
+#menu ul.track li.track span{
+color:black;
+}
+*/
+
+#lyrics{
+float:left;
+width:80%;
+}
+
+input.lyrics_set,input.youtube_set{
+background-color:red;
+}
+
