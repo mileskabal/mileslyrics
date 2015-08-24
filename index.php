@@ -11,12 +11,8 @@ $milesLyrics = new MilesLyrics($database);
 	<meta charset="UTF-8">
 	<title>milesLyrics</title>
 	<link rel="stylesheet" href="css/bootstrap-slate.css" style="text/css" media="all" />
+	<link rel="stylesheet" href="css/bootswatch.css" style="text/css" media="all" />
 	<link rel="stylesheet" href="css/style.css" style="text/css" media="all" />
-	<script type="text/javascript" src="js/jquery.1.7.min.js"></script>
-	<script type="text/javascript" src="js/jwerty.js"></script>
-	<script type="text/javascript" src="js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="js/mileslyrics.js"></script>
-	<script type="text/javascript" src="js/ready.js"></script>
 	<script type="text/javascript"><?php echo $milesLyrics->javascript; ?></script>
 </head>
 <body>
@@ -29,19 +25,47 @@ $milesLyrics = new MilesLyrics($database);
 	  </div>
 	</nav>
 
-	<div id="wrapper">
+	<div id="wrapper" style="display:none;">
 		<div id="menu"><?php echo $milesLyrics->templateMainMenu(); ?></div>
 		<div id="lyrics" class="container"></div>
 	</div>
 	
-	<div id="admin" style="display:none;">
+	<div id="admin">
+		<ul class="nav nav-tabs">
+		  <li class=""><a aria-expanded="false" href="#admin_home" data-toggle="tab">Home</a></li>
+		  <li class=""><a aria-expanded="true" href="#admin_artist" data-toggle="tab">Artist</a></li>
+		  <li class=""><a aria-expanded="true" href="#admin_album" data-toggle="tab">Album</a></li>
+		  <li class="active"><a aria-expanded="true" href="#admin_track" data-toggle="tab">Track</a></li>
+		</ul>
+		<div id="myTabContent" class="tab-content">
+		  <div class="tab-pane fade" id="admin_home">
+		    <p>Bienvenue dans l'admin</p>
+		    <p><input type="button" id="close_admin" value="X" /></p>
+		  </div>
+		  <div class="tab-pane fade" id="admin_artist">
+		    <div id="createArtist"><?php echo $milesLyrics->templateCreateArtist(); ?></div>
+		  </div>
+		  <div class="tab-pane fade" id="admin_album">
+		    <div id="createAlbum"><?php echo $milesLyrics->templateCreateAlbum(); ?></div>
+		  </div>
+		  <div class="tab-pane fade active in" id="admin_track">
+		    <div id="createTracks"><?php echo $milesLyrics->templateCreateTracks(); ?></div>
+		  </div>
+		</div>
+		<!--
 		<input type="button" id="close_admin" value="X" />
 		<div id="createArtist"><?php echo $milesLyrics->templateCreateArtist(); ?></div>
 		<div id="createAlbum"><?php echo $milesLyrics->templateCreateAlbum(); ?></div>
 		<div id="createTracks"><?php echo $milesLyrics->templateCreateTracks(); ?></div>
-		<!--
 		-->
 	</div>
-	
+
+	<script type="text/javascript" src="js/jquery.1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/jwerty.js"></script>
+	<script type="text/javascript" src="js/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/bootswatch.js"></script>
+	<script type="text/javascript" src="js/ready.js"></script>
+	<script type="text/javascript" src="js/mileslyrics.js"></script>
 </body>
 </html>

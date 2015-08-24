@@ -19,6 +19,7 @@ body{
 }
 
 /* The CSS */
+/*
 select,input {
     padding:3px;
     margin: 5px;
@@ -53,6 +54,11 @@ input[type=text]{
 input[disabled],select[disabled]{
     color:#666;
     background-color: #DDDDDD;
+}
+*/
+
+#admin{
+    width:540px;
 }
 
 #wrapper{
@@ -153,5 +159,14 @@ width:80%;
 
 input.lyrics_set,input.youtube_set{
 background-color:red;
+}
+
+#admin_track input.form-control[type="text"]{
+display:inline;
+width:250px;
+}
+select {
+height: 36px;
+color: #444;
 }
 

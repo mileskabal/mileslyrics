@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	// MENU //
 	// ARTIST
-	$('#menu ul.artist li.artist > a').live("click", function(){
+	$('#menu ul.artist li.artist > a').on("click", function(){
 		//~ $(this).parent().children('ul.album').slideToggle();
 		$('#menu ul.artist li.artist ul.album').not($(this).parent().children('ul.album')).slideUp();
 		$('#menu ul.artist li.artist ul.album ul.track').slideUp();
@@ -11,14 +11,15 @@ $(document).ready(function(){
 		$(this).parent().addClass('active');
 		return false;
 	});
-	$('#menu ul.artist li.artist > a').live("hover", function(){
+	$('#menu ul.artist li.artist > a').on("mouseover", function(){
 		$(this).css('cursor','pointer');
+		console.log('coucou');
 	});
-	$('#menu ul.artist li.artist > a').live("out", function(){
+	$('#menu ul.artist li.artist > a').on("mouseout", function(){
 		$(this).css('cursor','main');
 	});	
 	// ALBUM
-	$('#menu ul.artist li ul.album li > a').live("click", function(){
+	$('#menu ul.artist li ul.album li > a').on("click", function(){
 		//~ $(this).parent().children('ul.track').slideToggle();
 		$(this).parent().parent().find('li.album ul.track').not($(this).parent().children('ul.track')).slideUp();
 		$(this).parent().children('ul.track').slideDown();
@@ -26,23 +27,23 @@ $(document).ready(function(){
 		$(this).parent().addClass('active');
 		return false;
 	});
-	$('#menu ul.artist li ul.album li.album > a').live("hover", function(){
+	$('#menu ul.artist li ul.album li.album > a').on("mouseover", function(){
 		$(this).css('cursor','pointer');
 	});
-	$('#menu ul.artist li ul.album li.album > a').live("out", function(){
+	$('#menu ul.artist li ul.album li.album > a').on("mouseout", function(){
 		$(this).css('cursor','main');
 	});
 	// TRACK
-	$('#menu ul.artist li ul.album li.album ul.track li.track a').live("click", function(e){
+	$('#menu ul.artist li ul.album li.album ul.track li.track a').on("click", function(e){
 		$(this).parent().parent().parent().addClass('active');
 		getLyrics($(this).data('id_track'));
 		e.preventDefault();
 		return false;
 	});
-	$('#menu ul.artist li ul.album li.album ul.track li.track a').live("hover", function(e){
+	$('#menu ul.artist li ul.album li.album ul.track li.track a').on("mouseover", function(e){
 		$(this).css('cursor','pointer');
 	});
-	$('#menu ul.artist li ul.album li.album ul.track li.track a').live("out", function(e){
+	$('#menu ul.artist li ul.album li.album ul.track li.track a').on("mouseout", function(e){
 		$(this).css('cursor','main');
 	});
 	
@@ -53,146 +54,156 @@ $(document).ready(function(){
 	////////////////////////////////
 		
 	// Create Artist Button
-	$("#create_artist_button").live("click", function(){
+	$("#admin").on("click", "#create_artist_button", function(){
 		createArtist();
 		return false;
 	});
 	
 	// Create Artist Button confirm
-	$("#create_artist_button_confirm").live("click", function(){
+	$("#admin").on("click", "#create_artist_button_confirm", function(){
 		createArtist(true);
 		return false;
 	});
 		
 	// Create Artist Button cancel
-	$("#create_artist_button_cancel").live("click", function(){
+	$("#admin").on("click", "#create_artist_button_cancel", function(){
 		$('#create_artist_confirm').empty();
 		return false;
 	});
 	
 	// Create Album Select Artist
-	$("#create_album_select_artist").change(function(){
-		createAlbumSelectArtist();
-		return false;
+	$("#admin").on("click", ".create_album_select_artist", function(){
+		createAlbumSelectArtist($(this).data('id_artist'));
+		$('#create_album_dropdown').html($(this).html()+'<span class="caret"></span>');
+		// return false;
 	});
 	
 	// Create Album Button
-	$("#create_album_button").live("click", function(){
+	$("#admin").on("click", "#create_album_button", function(){
 		createAlbum();
 		return false;
 	});
 	
 	// Create Tracks Select Artist
-	$("#create_tracks_select_artist").change(function(){
-		createTracksSelectArtist();
-		return false;
+	// $("#create_tracks_select_artist").change(function(){
+	// 	createTracksSelectArtist();
+	// 	return false;
+	// });
+	$("#admin").on("click", ".create_tracks_select_artist", function(){
+		createTracksSelectArtist($(this).data('id_artist'));
+		$('#create_tracks_artist_dropdown').html($(this).html()+'<span class="caret"></span>');
 	});
 	
 	// Create Tracks Select Album
-	$("#create_tracks_select_album").change(function(){
-		createTracksSelectAlbum();
-		return false;
+	// $("#create_tracks_select_album").change(function(){
+		// createTracksSelectAlbum();
+		// return false;
+	// });
+	$("#admin").on("click", ".create_tracks_select_album", function(){
+		createTracksSelectAlbum($(this).data('id_album'));
+		$('#create_tracks_album_dropdown').html($(this).html()+'<span class="caret"></span>');
 	});
 	
 	
 	// Create Tracks Add Tracks Button
-	$("#create_track_add_special").live("click", function(){
+	$("#admin").on("click", "#create_track_add_special", function(){
 		createTrackAddSpecial();
 		return false;
 	});
 	
 	// Create Tracks Add Track Button Action
-	$("#create_track_add_special_ok").live("click", function(){
+	
+	$("#admin").on("click", "#create_track_add_special_ok", function(){
 		createTrackAddSpecialAction();
 		return false;
 	});
 	
 	// Create Tracks Add Track Button Action
-	$("#create_track_add_special_cancel").live("click", function(){
+	$("#admin").on("click", "#create_track_add_special_cancel", function(){
 		$(this).parent().empty();
 		return false;
 	});
 
 	// Create Tracks Add Track Button
-	$("#create_track_add").live("click", function(){
+	$("#admin").on("click", "#create_track_add", function(){
 		createTrackAdd();
 		return false;
 	});	
 	
 	// Create Tracks Remove Track Button
-	$(".create_track_remove").live("click", function(){
+	$("#admin").on("click", ".create_track_remove", function(){
 		$(this).parent().remove();
 		return false;
 	});
 	
 	// Create Tracks Edit Track Button
-	$(".create_track_edit").live("click", function(){
+	$("#admin").on("click", ".create_track_edit", function(){
 		createTrackEdit(this);
 		return false;
 	});
 	
 	// Create Tracks Edit Track Action Button
-	$(".create_track_edit_action").live("click", function(){
+	$("#admin").on("click", ".create_track_edit_action", function(){
 		createTrackEditAction(this);
 		return false;
 	});
 
 	// Create Tracks Edit Track Cancel Button
-	$(".create_track_edit_action_cancel").live("click", function(){
+	$("#admin").on("click", ".create_track_edit_action_cancel", function(){
 		createTrackEditCancel(this);
 		return false;
 	});
 	
 	// Create Tracks Button
-	$("#create_track_button").live("click", function(){
+	$("#admin").on("click", "#create_track_button", function(){
 		createTracks();
 		return false;
 	});
 	
 	// Create Lyrics Button
-	$(".create_track_lyrics").live("click", function(){
+	$("#admin").on("click", ".create_track_lyrics", function(){
 		createLyrics(this);
 		return false;
 	});
 	
 	// Create Lyrics Cancel Button
-	$('#create_lyrics_button_cancel').live("click", function(){
+	$("#admin").on("click", "#create_lyrics_button_cancel", function(){
 		createLyricsCancel(this);
 		return false;
 	});
 
 	// Create Lyrics Action Button
-	$('#create_lyrics_button').live("click", function(){
+	$("#admin").on("click", "#create_lyrics_button", function(){
 		createLyricsAction(this);
 		return false;
 	});
 	
 	// Create Lyrics Youtube Button
-	$('.create_track_youtube').live("click", function(){
+	$("#admin").on("click", ".create_track_youtube", function(){
 		createTrackYoutube(this);
 		return false;
 	});
 	
 	// Create Lyrics Youtube Action (ok) Button
-	$('.create_track_youtube_ok').live("click", function(){
+	$("#admin").on("click", ".create_track_youtube_ok", function(){
 		createTrackYoutubeAction(this);
 		return false;
 	});
 	
 	// Create Lyrics Youtube Cancel Button
-	$('.create_track_youtube_cancel').live("click", function(){
+	$("#admin").on("click", ".create_track_youtube_cancel", function(){
 		createTrackYoutubeCancel(this);
 		return false;
 	});
 	
 	// UPLOAD Image album
-	$('#buttonUploadImgAlbum').live("click", function(e){
+	$("#admin").on("click", "#buttonUploadImgAlbum", function(){
 		e.preventDefault();
 		ajaxFileUploadImgAlbum();
 	});
 	
 	// Close Admin Button
-	$("#close_admin").live("click", function(){
+	$("#admin").on("click", "#close_admin", function(){
 		$("#admin").hide();
 		$("#wrapper").show();
 		return false;

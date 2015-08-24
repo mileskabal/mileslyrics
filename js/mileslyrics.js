@@ -41,19 +41,18 @@ function createArtist(confirm){
 					}
 					else{
 						$('#create_artist_confirm').empty();
-						$('#create_artist_return').html('ok');
-						setTimeout((function() { $('#create_artist_return').empty(); $('#create_artist_name').val(''); }), 2000);
+						$('#create_artist_return').html('<div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">×</button>'+GLOBAL_ADMIN_ARTIST_WELL_CREATED+'</div>');
+						$('#create_artist_name').val('');;
 					}
 				}
 				else{
-					alert("error");						
-					alert(json.error);						
+					$('#create_artist_return').html('<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>'+GLOBAL_ADMIN_ERROR+' : '+json.error+'</div>');
 				}
 			}
 		});
 	}
 	else{
-		alert('Empty artist field');
+		$('#create_artist_return').html('<div class="alert alert-dismissible alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>'+GLOBAL_ADMIN_ARTIST_EMPTY+'</div>');
 	}
 }
 
@@ -86,8 +85,7 @@ function createAlbum(){
 }
 
 // Create Album Select Artist ACTION AJAX
-function createAlbumSelectArtist(){
-	var id_artist = $('#create_album_select_artist').val();
+function createAlbumSelectArtist(id_artist){
 	if(id_artist != ''){
 		$.ajax({
 			type: "POST",
@@ -109,10 +107,10 @@ function createAlbumSelectArtist(){
 
 
 // Create Tracks Select Artist ACTION AJAX
-function createTracksSelectArtist(){
+function createTracksSelectArtist(id_artist){
 	$('#create_lyrics').hide();
 	$('#create_tracks_div').empty().hide();
-	var id_artist = $('#create_tracks_select_artist').val();
+	// var id_artist = $('#create_tracks_select_artist').val();
 	if(id_artist != ''){
 		console.log(id_artist);
 		$.ajax({
@@ -132,10 +130,10 @@ function createTracksSelectArtist(){
 }
 
 // Create Tracks Select Album ACTION AJAX
-function createTracksSelectAlbum(){
+function createTracksSelectAlbum(id_album){
 	$('#create_lyrics').hide();
-	$('#create_tracks_div,').empty().hide();
-	var id_album = $('#create_tracks_select_album').val();
+	$('#create_tracks_div').empty().hide();
+	// var id_album = $('#create_tracks_select_album').val();
 	if(id_album != ''){
 		console.log(id_album);
 		$.ajax({
@@ -156,13 +154,13 @@ function createTrackAdd(){
 	var html = '';
 	var option = '<option value="">-pos-</option>';
 	for(i=1;i<100;i++){option += '<option value="'+i+'">'; if(i<10){option += '0';} option += i+'</option>';}
-	html += '<p class="create"><label><select class="create_track_select">'+option+'</select></label><input type="text" value="" class="create_track_name" /> <input type="button" value="X" class="create_track_remove" /></p>';
+	html += '<p class="create"><label><select class="create_track_select">'+option+'</select></label> <input type="text" value="" class="form-control create_track_name" /> <a href="#" class="btn btn-warning create_track_remove">X</a></p>';
 	$('#create_track_tracklist').append(html);	
 }
 
 // Create Tracks Add Tracks Button
 function createTrackAddSpecial(){
-	$('#create_tracks_return').html('<textarea id="create_track_add_special_text" style="width:500px;height:300px;"></textarea><br /><input type="button" value="ok" id="create_track_add_special_ok" /><input type="button" value="cancel" id="create_track_add_special_cancel" />')
+	$('#create_tracks_return').html('<textarea id="create_track_add_special_text" style="width:500px;height:300px;"></textarea><br /><a href="#" class="btn btn-success" id="create_track_add_special_ok">'+GLOBAL_ADMIN_OK+'</a><a href="#" class="btn btn-warning" id="create_track_add_special_cancel">'+GLOBAL_ADMIN_CANCEL+'</a>')
 }
 
 // Create Tracks Add Tracks Button ACTION
@@ -181,7 +179,7 @@ function createTrackAddSpecialAction(){
 			option += j+'</option>';
 		}
 		if(num<9){num = '0'+num;}
-		html += '<p class="create"><label><select class="create_track_select">'+option+'</select></label><input type="text" value="'+textList[i].replace(/"/g,'&quot;')+'" class="create_track_name" /> <input type="button" value="X" class="create_track_remove" /></p>';
+		html += '<p class="create"><label><select class="create_track_select">'+option+'</select></label><input type="text" value="'+textList[i].replace(/"/g,'&quot;')+'" class="form-control create_track_name" /> <a href="#" class="btn btn-warning create_track_remove">X</a></p>';
 	}
 	$('#create_track_tracklist').html(html);
 	$('#create_tracks_return').empty();

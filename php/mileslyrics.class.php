@@ -355,10 +355,14 @@ class MilesLyrics{
 	
 	public function templateCreateArtist(){
 		$html = '';
-		$html .= '<h2>'._ADMIN_CREATE_ARTIST.'</h2>';
+		$html .= '<h3>'._ADMIN_CREATE_ARTIST.'</h3>';
 		$html .= '<div id="create_artist_confirm"></div>';
-		$html .= '<input type="text" id="create_artist_name" /><input type="button" id="create_artist_button" value="ok" />';
 		$html .= '<div id="create_artist_return"></div>';
+		$html .= '<div class="form-group">
+					  <label class="control-label" for="focusedInput">'._ARTIST.'</label>
+					  <input class="form-control" value="" type="text" id="create_artist_name">
+					</div>
+					  <a href="#" class="btn btn-default" id="create_artist_button">'._ADMIN_VALID.'</a>';
 		return $html;
 	}
 
@@ -381,32 +385,29 @@ class MilesLyrics{
 
 	public function templateCreateAlbum(){
 		$html = '';
-		$html .= '<h2>'._ADMIN_CREATE_ALBUM.'</h2>';
+		$html .= '<h3>'._ADMIN_CREATE_ALBUM.'</h3>';
 		$listArtist = $this->getListArtist();
 		if($listArtist['response'] == 'ok'){
-			$html .= '<label><select id="create_album_select_artist">';
-			$html .= '<option value=""> -- '._ARTIST.' -- </option>';				
+			$html .= '<ul class="nav nav-pills nav-stacked"><li class="dropdown">';
+			$html .= '<a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#" id="create_album_dropdown">'._ARTIST.'<span class="caret"></span></a>';
+			$html .= '<ul class="dropdown-menu">';
 			foreach($listArtist['data'] as $artist){
-				$html .= '<option value="'.$artist['id_artist'].'">'.$artist['name'].'</option>';				
+				$html .= '<li><a href="#" data-id_artist="'.$artist['id_artist'].'" class="create_album_select_artist" data-toggle="tab" aria-expanded="false">'.$artist['name'].'</a></li>';
 			}
-			$html .= '</select></label>';
+			$html .= '</ul>';
+			$html .= '</li></ul>';
 		}
-		$html .= '<div id="create_album_div" style="display:none;"><input type="text" id="create_album_name" /><input type="text" id="create_album_date" /><input type="button" id="create_album_button" value="ok" /></div>';
+		$html .= '<div id="create_album_div" style="display:none;">
+					<div class="form-group">
+						<label class="control-label" for="focusedInput">'._ALBUM.'</label>
+						<input class="form-control" value="" type="text" id="create_album_name">
+						<label class="control-label" for="focusedInput">'._DATE.'</label>
+						<input class="form-control" value="" type="text" id="create_album_date">
+					</div>
+					<a href="#" class="btn btn-default" id="create_album_button">'._ADMIN_VALID.'</a>
+				</div>';
 		$html .= '<div id="create_album_return"></div>';
 		return $html;
-	}
-	
-	public function ajaxCreateTracksSelectArtist($id_artist){
-		$return = _NO_ALBUM;
-		$data = $this->getListAlbumByArtist($id_artist);
-		if(count($data['data'])){
-			$return = '';
-			$return .= '<option value=""> -- '._ALBUM.' --</option>';
-			foreach($data['data'] as $album){
-				$return .= '<option value="'.$album['id_album'].'">'.$album['name'].'</option>';
-			}
-		}
-		return $return;
 	}
 	
 	public function ajaxCreateTracksSelectAlbum($id_album){
@@ -419,36 +420,59 @@ class MilesLyrics{
 		$return .= '<p><form name="form" action="" method="POST" enctype="multipart/form-data">
 			<input id="imgAlbum" type="file" size="45" name="imgAlbum" class="input" /><input type="button" id="buttonUploadImgAlbum" data-id_album="'.$id_album.'" value="Upload" />
 		</form><div id="loading"></div></p>';
-		$return .= '<p><input type="button" value="'._ADMIN_ADD_TRACK.'" id="create_track_add" /><input type="button" value="'._ADMIN_ADD_TRACKS.'" id="create_track_add_special" /><input type="button" value="'._ADMIN_SAVE.'" id="create_track_button" /></p>';
+		// $return .= '<p><input type="button" value="'._ADMIN_ADD_TRACK.'" id="create_track_add" /><input type="button" value="'._ADMIN_ADD_TRACKS.'" id="create_track_add_special" /><input type="button" value="'._ADMIN_SAVE.'" id="create_track_button" /></p>';
+		$return .= '<p>
+						<a href="#" class="btn btn-primary" id="create_track_add">'._ADMIN_ADD_TRACK.'</a>
+						<a href="#" class="btn btn-primary" id="create_track_add_special">'._ADMIN_ADD_TRACKS.'</a>
+						<a href="#" class="btn btn-success" id="create_track_button">'._ADMIN_SAVE.'</a>
+					</p>';
 		$data = $this->getListTracksByAlbum($id_album);
 		$return .= '<div id="create_track_tracklist">';
 		if(count($data['data'])){
 			foreach($data['data'] as $track){
 				$lt = $this->getLyricsForTrack($track['id_track']);
 				$id_lyrics = 0;
-				$class_add_lyrics = '';
+				$btn_lyrics = 'default';
 				if($lt['nbr']){
 					$id_lyrics = $lt['data'][0]['id_lyrics'];
-					$class_add_lyrics = ' lyrics_set';
+					$btn_lyrics = 'info';
 				}
 				$yt = $this->getYoutubeForTrack($track['id_track']);
 				$id_youtube = 0;
 				$url_youtube = '';
-				$class_add_youtube = '';
+				$btn_youtube = 'default';
 				if($yt['nbr']){
 					$id_youtube = $yt['data'][0]['id_youtube'];
 					$url_youtube = $yt['data'][0]['url'];
-					$class_add_youtube = ' youtube_set';
+					$btn_youtube = 'danger';
 				}
 				$option = '<option value="">-pos-</option>';
-				for($i=1;$i<100;$i++){$optionSelected = ''; if($i == $track['pos']){$optionSelected = ' selected="selected"';}$option .= '<option value="'.$i.'"'.$optionSelected.'>'; if($i<10){$option .= '0';} $option .= $i.'</option>';}
-				$return .= '<p><label><select class="create_track_select" disabled>'.$option.'</select></label><input type="text"  class="create_track_name" value="'.str_replace('"','&quot;',$track['name']).'" disabled /> <input type="button" value="'._ADMIN_EDIT.'" class="create_track_edit" /><input type="button" value="'._ADMIN_LYRICS.'" class="create_track_lyrics'.$class_add_lyrics.'" data-id_track="'.$track['id_track'].'" data-id_lyrics="'.$id_lyrics.'" /><input style="display:none;" type="button" value="'._ADMIN_OK.'" class="create_track_edit_action" data-id_track="'.$track['id_track'].'" /><input style="display:none;" type="button" value="'._ADMIN_CANCEL.'" class="create_track_edit_action_cancel" /><input type="button" value="youtube" class="create_track_youtube'.$class_add_youtube.'" data-id_youtube="'.$id_youtube.'" /><span class="create_track_youtube_span" style="display:none;"><input type="text" value="'.$url_youtube.'" class="create_track_youtube_text" /><input type="button" value="ok" class="create_track_youtube_ok" data-id_track="'.$track['id_track'].'" data-id_youtube="'.$id_youtube.'" /><input type="button" value="cancel" class="create_track_youtube_cancel" /></span></p>';
+				for($i=1;$i<100;$i++){
+					$optionSelected = ($i == $track['pos']) ? ' selected="selected"' : '' ;
+					$option .= '<option value="'.$i.'"'.$optionSelected.'>';
+					if($i<10) $option .= '0';;
+					$option .= $i.'</option>';
+				}
+				$return .= '<p>
+							<label><select class="create_track_select" disabled>'.$option.'</select></label>
+							<input type="text" class="form-control create_track_name" value="'.str_replace('"','&quot;',$track['name']).'" disabled="" />
+							<a href="#" class="btn btn-default create_track_edit">'._ADMIN_EDIT.'</a>
+							<a href="#" class="btn btn-'.$btn_lyrics.' create_track_lyrics" data-id_track="'.$track['id_track'].'" data-id_lyrics="'.$id_lyrics.'">'._ADMIN_LYRICS.'</a>
+							<a href="#" style="display:none;" class="btn btn-success create_track_edit_action" data-id_track="'.$track['id_track'].'">'._ADMIN_OK.'</a>
+							<a href="#" style="display:none;" class="btn btn-warning create_track_edit_action_cancel">'._ADMIN_CANCEL.'</a>
+							<a href="#" class="btn btn-'.$btn_youtube.' create_track_youtube" data-id_youtube="'.$id_youtube.'">Youtube</a>
+							<span class="create_track_youtube_span" style="display:none;">
+								<input type="text" placeholder="Youtube" value="'.$url_youtube.'" class=" form-control create_track_youtube_text" />
+								<a href="#" class="btn btn-success create_track_youtube_ok" data-id_track="'.$track['id_track'].'" data-id_youtube="'.$id_youtube.'">'._ADMIN_OK.'</a>
+								<a href="#" class="btn btn-warning create_track_youtube_cancel">'._ADMIN_CANCEL.'</a>
+							</span>
+							</p>';
 			}
 		}
 		else{
 			$option = '<option value="">-pos-</option>';
 			for($i=1;$i<100;$i++){$option .= '<option value="'.$i.'">'; if($i<10){$option .= '0';} $option .= $i.'</option>';}
-			$return .= '<p class="create"><label><select class="create_track_select">'.$option.'</select></label><input type="text" value="" class="create_track_name" /> <input type="button" value="X" class="create_track_remove" /></p>';
+			$return .= '<p class="create"><label><select class="create_track_select">'.$option.'</select></label><input type="text" value="" class="form-control create_track_name" /> <a href="#" class="btn btn-warning create_track_remove">X</a></p>';
 		}
 		$return .= '</div>';		
 		return $return;
@@ -512,26 +536,53 @@ class MilesLyrics{
 		return $return;
 	}
 	
+	public function ajaxCreateTracksSelectArtist($id_artist){
+		$return = _NO_ALBUM;
+		$data = $this->getListAlbumByArtist($id_artist);
+		if(count($data['data'])){
+			$return = '';
+			$return .= '<li class="dropdown">';
+			$return .= '<a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#" id="create_tracks_album_dropdown">'._ALBUM.'<span class="caret"></span></a>';
+			$return .= '<ul class="dropdown-menu">';
+			foreach($data['data'] as $album){
+				$return .= '<li><a href="#" data-id_album="'.$album['id_album'].'" class="create_tracks_select_album" data-toggle="tab" aria-expanded="false">'.$album['name'].'</a></li>';
+			}
+			$return .= '</ul>';
+			$return .= '</li>';
+
+		}
+		return $return;
+	}
+
 	public function templateCreateTracks(){
 		$html = '';
-		//$html .= '<h2>'._ADMIN_CREATE_TRACKS.'</h2>';
+		$html .= '<h3>'._ADMIN_CREATE_TRACKS.'</h3>';
 		$listArtist = $this->getListArtist(true);
 		if($listArtist['response'] == 'ok'){
-			$html .= '<label><select id="create_tracks_select_artist">';
-			$html .= '<option value=""> -- '._ARTIST.' -- </option>';
+			$html .= '<ul class="nav nav-pills nav-stacked"><li class="dropdown">';
+			$html .= '<a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#" id="create_tracks_artist_dropdown">'._ARTIST.'<span class="caret"></span></a>';
+			$html .= '<ul class="dropdown-menu">';
 			foreach($listArtist['data'] as $artist){
-				$html .= '<option value="'.$artist['id_artist'].'">'.$artist['name'].'</option>';
+				$html .= '<li><a href="#" data-id_artist="'.$artist['id_artist'].'" class="create_tracks_select_artist" data-toggle="tab" aria-expanded="false">'.$artist['name'].'</a></li>';
 			}
-			$html .= '</select></label>';
+			$html .= '</ul>';
+			$html .= '</li></ul>';
 		}
-		$html .= '<label><select id="create_tracks_select_album" style="display:none;">';
-		$html .= '</select></label>';
+		$html .= '<ul class="nav nav-pills nav-stacked" id="create_tracks_select_album" style="display:none;">';
+		$html .= '</ul>';
+
 		$html .= '<div id="create_tracks_div" style="display:none;"></div>';
 		$html .= '<div id="create_tracks_return"></div>';
-		$html .= '<div id="create_lyrics" style="display:none;"><textarea id="lyrics_text" style="width:570px;height:340px;"></textarea><br /><input type="button" id="create_lyrics_button" value="'._ADMIN_OK.'" data-id_track="0" data-id_lyrics="0" /><input type="button" id="create_lyrics_button_cancel" value="'._ADMIN_CANCEL.'" /></div>';
+		$html .= '<div id="create_lyrics" style="display:none;">
+					<textarea id="lyrics_text" style="width:570px;height:340px;"></textarea><br />
+					<a href="#" class="btn btn-success" id="create_lyrics_button" data-id_track="0" data-id_lyrics="0">'._ADMIN_OK.'</a>
+					<a href="#" class="btn btn-warning" id="create_lyrics_button_cancel">'._ADMIN_CANCEL.'</a>
+				</div>';
+					// <input type="button" id="create_lyrics_button" value="'._ADMIN_OK.'" data-id_track="0" data-id_lyrics="0" />
+					// <input type="button" id="create_lyrics_button_cancel" value="'._ADMIN_CANCEL.'" />
 		return $html;
 	}
-	
+
 	public function templateAdmin(){
 		$html = '';
 		$html .= '<input type="button" id="close_admin" value="X" />';
