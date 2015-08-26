@@ -110,8 +110,11 @@ if(isset($_POST['action']) && $_POST['action'] != ''){
 	// Create Youtube
 	elseif($action == 'create_youtube_action'){
 		if(isset($_POST['url']) && $_POST['url'] != '' && isset($_POST['id_track']) && $_POST['id_track'] != '' && isset($_POST['id_youtube']) && $_POST['id_youtube'] != ''){
+			$ajax['response'] = 'Error';
 			$ajax['data'] = $milesLyrics->ajaxCreateYoutube($_POST['id_track'],$_POST['url'],$_POST['id_youtube']);
-			$ajax['response'] = 'ok';
+			if($ajax['data'] != ''){
+				$ajax['response'] = 'ok';
+			}
 		}
 		else{
 			$ajax['error'] = 'No tracks';

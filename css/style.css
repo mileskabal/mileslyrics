@@ -170,3 +170,56 @@ height: 36px;
 color: #444;
 }
 
+form {
+float: left;
+margin-top: 0em;
+}
+#admin .input-file-container {
+position: relative;
+width: 125px;
+float: left;
+margin-right: 5px;
+}
+#admin .input-file-trigger {
+border: 1px solid transparent;
+display: inline;
+padding: 10px 20px;
+background-image: linear-gradient(#484e55, #3a3f44 60%, #313539);
+border-color: #111;
+text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+color: #fff;
+font-size: 1em;
+transition: all .4s;
+cursor: pointer;
+font-weight: normal;
+text-align: center;
+vertical-align: middle;
+white-space: nowrap;
+font-size: 14px;
+line-height: 1.42857143;
+border-radius: 4px;
+}
+#admin .file {
+position: absolute;
+top: 0; left: 0;
+width: 124px;
+padding: 0px 0px;
+opacity: 0;
+cursor: pointer;
+}
+.file-return {
+margin: 0;
+}
+.file-return:not(:empty) {
+margin: 1em 0;
+}
+#admin .file-return {
+font-style: italic;
+font-size: .9em;
+font-weight: bold;
+}
+#admin .file-return:not(:empty):before {
+content: "Selected file: ";
+font-style: normal;
+font-weight: normal;
+}

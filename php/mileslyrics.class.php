@@ -265,7 +265,7 @@ class MilesLyrics{
 			$return = array();
 			foreach($size as $sz){
 				$msg = array('log'=>'','size'=>$sz,'response'=>false);
-				$path = '../img/'.$name.'_'.$sz[0].'x'.$sz[1].$ext;
+				$path = '../img/album/'.$name.'_'.$sz[0].'x'.$sz[1].$ext;
 				$result = $this->imageResize($pathFile,$path,$sz[0],$sz[1]);
 				if($result){
 					chmod($path,0664);
@@ -292,7 +292,7 @@ class MilesLyrics{
 		$ext = strrchr($name,'.');
 		$name = 'album_'.$id_album.$ext;
 		
-		$pathFile = '../img/'.$name;
+		$pathFile = '../img/album/'.$name;
 		$result = move_uploaded_file($tmp_name,$pathFile);
 		if($result){chmod($pathFile,0664);}
 		
@@ -396,6 +396,7 @@ class MilesLyrics{
 			}
 			$html .= '</ul>';
 			$html .= '</li></ul>';
+			$html .= '<input type="hidden" id="create_album_select_artist" value="0" />';
 		}
 		$html .= '<div id="create_album_div" style="display:none;">
 					<div class="form-group">
@@ -415,12 +416,20 @@ class MilesLyrics{
 		$data = $this->getImgAlbum($id_album);
 		if($data['response'] == 'ok' && isset($data['nbr']) && $data['nbr']){
 			$img = $data['data'][0];
-			$return .= '<p><img src="img/'.$img['type'].'_'.$img['id_album'].'_'.current(unserialize($img['size'])).$img['ext'].'" /></p>';
+			$return .= '<p><img src="img/album/'.$img['type'].'_'.$img['id_album'].'_'.current(unserialize($img['size'])).$img['ext'].'" /></p>';
 		}
 		$return .= '<p><form name="form" action="" method="POST" enctype="multipart/form-data">
-			<input id="imgAlbum" type="file" size="45" name="imgAlbum" class="input" /><input type="button" id="buttonUploadImgAlbum" data-id_album="'.$id_album.'" value="Upload" />
-		</form><div id="loading"></div></p>';
-		// $return .= '<p><input type="button" value="'._ADMIN_ADD_TRACK.'" id="create_track_add" /><input type="button" value="'._ADMIN_ADD_TRACKS.'" id="create_track_add_special" /><input type="button" value="'._ADMIN_SAVE.'" id="create_track_button" /></p>';
+						<div class="input-file-container">
+						<input id="imgAlbum" type="file" name="imgAlbum" class="file" />
+						<label for="imgAlbum" class="input-file-trigger" tabindex="0">Select a file...</label>
+						</div>
+						<div style="clear:both"></div>
+						</form>
+						<input type="button" id="buttonUploadImgAlbum" data-id_album="'.$id_album.'" value="Upload" />
+						<div style="clear:both"></div>
+						<p class="file-return"></p>
+						<div id="loading"></div>
+					</p>';
 		$return .= '<p>
 						<a href="#" class="btn btn-primary" id="create_track_add">'._ADMIN_ADD_TRACK.'</a>
 						<a href="#" class="btn btn-primary" id="create_track_add_special">'._ADMIN_ADD_TRACKS.'</a>
@@ -521,7 +530,7 @@ class MilesLyrics{
 			$return = $this->createYoutube($id_track,$url,$id_video,$id_youtube);
 		}
 		else{
-			$return .= '<pre>error youtube link '.print_r(parse_url($url),true).'</pre>';
+			$return .= '';
 		}
 		return $return;
 	}
@@ -549,6 +558,7 @@ class MilesLyrics{
 			}
 			$return .= '</ul>';
 			$return .= '</li>';
+			$return .= '<input type="hidden" id="create_tracks_select_album" value="0" />';
 
 		}
 		return $return;
@@ -567,8 +577,9 @@ class MilesLyrics{
 			}
 			$html .= '</ul>';
 			$html .= '</li></ul>';
+			$html .= '<input type="hidden" id="create_tracks_select_artist" value="0" />';
 		}
-		$html .= '<ul class="nav nav-pills nav-stacked" id="create_tracks_select_album" style="display:none;">';
+		$html .= '<ul class="nav nav-pills nav-stacked" id="create_tracks_select_album_ul" style="display:none;">';
 		$html .= '</ul>';
 
 		$html .= '<div id="create_tracks_div" style="display:none;"></div>';

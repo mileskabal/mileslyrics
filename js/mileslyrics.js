@@ -110,7 +110,7 @@ function createAlbumSelectArtist(id_artist){
 function createTracksSelectArtist(id_artist){
 	$('#create_lyrics').hide();
 	$('#create_tracks_div').empty().hide();
-	// var id_artist = $('#create_tracks_select_artist').val();
+	$('#create_tracks_select_artist').val(id_artist);
 	if(id_artist != ''){
 		console.log(id_artist);
 		$.ajax({
@@ -120,12 +120,12 @@ function createTracksSelectArtist(id_artist){
 			success: function(msg){
 				var json = jQuery.parseJSON(msg);
 				console.log(json);
-				$('#create_tracks_select_album').html(json.data).show();
+				$('#create_tracks_select_album_ul').html(json.data).show();
 			}
 		});
 	}
 	else{
-		$('#create_tracks_select_album').empty().hide();
+		$('#create_tracks_select_album_ul').empty().hide();
 	}
 }
 
@@ -133,7 +133,7 @@ function createTracksSelectArtist(id_artist){
 function createTracksSelectAlbum(id_album){
 	$('#create_lyrics').hide();
 	$('#create_tracks_div').empty().hide();
-	// var id_album = $('#create_tracks_select_album').val();
+	$('#create_tracks_select_album').val(id_album);
 	if(id_album != ''){
 		console.log(id_album);
 		$.ajax({
@@ -274,7 +274,7 @@ function createTracks(){
 					$(this).find('.create_track_select').attr('disabled','disabled');
 					$(this).find('.create_track_name').attr('disabled','disabled');
 					$(this).find('.create_track_remove').remove();
-					$(this).append('<input type="button" value="'+GLOBAL_ADMIN_EDIT+'" class="create_track_edit" /><input type="button" value="'+GLOBAL_ADMIN_LYRICS+'" class="create_track_lyrics" /><input style="display:none;" type="button" value="'+GLOBAL_ADMIN_OK+'" class="create_track_edit_action" data-id_track="'+insert_id[i]+'" /><input style="display:none;" type="button" value="'+GLOBAL_ADMIN_CANCEL+'" class="create_track_edit_action_cancel" />');
+					$(this).append('<a href="#" class="btn btn-default create_track_edit">'+GLOBAL_ADMIN_EDIT+'</a> <a href="#" class="btn btn-default create_track_lyrics">'+GLOBAL_ADMIN_LYRICS+'</a> <a href="#" style="display:none;" class="btn btn-success create_track_edit_action" data-id_track="'+insert_id[i]+'">'+GLOBAL_ADMIN_OK+'</a> <a href="#" style="display:none;" class="btn btn-warning create_track_edit_action_cancel">'+GLOBAL_ADMIN_CANCEL+'</a> <a href="#" class="btn btn-default create_track_youtube" data-id_youtube="0">Youtube</a><span class="create_track_youtube_span" style="display:none;"><input type="text" placeholder="Youtube" value="" class=" form-control create_track_youtube_text" /> <a href="#" class="btn btn-success create_track_youtube_ok" data-id_track="'+insert_id[i]+'" data-id_youtube="0">'+GLOBAL_ADMIN_OK+'</a> <a href="#" class="btn btn-warning create_track_youtube_cancel">'+GLOBAL_ADMIN_CANCEL+'</a></span>');
 					i++;
 				});
 				$('#create_tracks_return').html('ok');
@@ -338,6 +338,7 @@ function createLyricsAction(button){
 					$('#lyrics_text').val('');
 					$('#create_lyrics').hide();
 					$('#create_tracks_div p').slideDown();
+					$('.create_track_lyrics[data-id_track="'+id_track+'"]').removeClass('btn-default').addClass('btn-info');
 				}
 			}
 		});
@@ -379,9 +380,12 @@ function createTrackYoutubeAction(button){
 					if(json.data.insert_id){
 						$(button).data('id_youtube',json.data.insert_id);
 						$p.find('.create_track_youtube').data('id_youtube',json.data.insert_id);
-						$p.find('.create_track_youtube').addClass('youtube_set');
+						$p.find('.create_track_youtube').removeClass('btn-default').addClass('btn-danger').addClass('youtube_set');
 					}
 					$span.hide();
+				}
+				else{
+					alert('Error Youtube');
 				}
 			}
 		});
@@ -392,6 +396,7 @@ function createTrackYoutubeAction(button){
 function createTrackYoutubeCancel(button){
 	$p = $(button).parent().parent();
 	$p.find('.create_track_youtube_span').hide();
+	$(button).parent().find('.create_track_youtube_text').val('');
 }
 	
 	
@@ -426,4 +431,3 @@ function ajaxFileUploadImgAlbum(){
 	});
 	return false;
 }
-

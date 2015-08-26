@@ -74,6 +74,7 @@ $(document).ready(function(){
 	// Create Album Select Artist
 	$("#admin").on("click", ".create_album_select_artist", function(){
 		createAlbumSelectArtist($(this).data('id_artist'));
+		$('#create_album_select_artist').val($(this).data('id_artist'));
 		$('#create_album_dropdown').html($(this).html()+'<span class="caret"></span>');
 		// return false;
 	});
@@ -197,7 +198,7 @@ $(document).ready(function(){
 	});
 	
 	// UPLOAD Image album
-	$("#admin").on("click", "#buttonUploadImgAlbum", function(){
+	$("#admin").on("click", "#buttonUploadImgAlbum", function(e){
 		e.preventDefault();
 		ajaxFileUploadImgAlbum();
 	});
@@ -209,6 +210,13 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$("#admin").on("click", ".input-file-trigger", function(){
+		$(".file").focus();
+	});
+	$("#admin").on("change", ".file", function(){
+		$(".file-return").html($(this).val());
+	});
+
 });
 
 jwerty.key('a,d,m,i,n', function () { $("#admin").show(); $("#wrapper").hide(); });
