@@ -20,5 +20,6 @@ define("_ADMIN_CANCEL","Cancel");
 define("_ADMIN_ARTIST_WELL_CREATED","The artist is well created");
 define("_ADMIN_ARTIST_EMPTY","The field artist is empty");
 define("_ADMIN_ERROR","Error");
+define("_ADMIN_SEND","Send");
 
 ?>

@@ -20,5 +20,6 @@ define("_ADMIN_CANCEL","Annuler");
 define("_ADMIN_ARTIST_WELL_CREATED","L'artiste a bien été créé");
 define("_ADMIN_ARTIST_EMPTY","Le champ artiste est vide");
 define("_ADMIN_ERROR","Erreur");
+define("_ADMIN_SEND","Envoyer");
 
 ?>

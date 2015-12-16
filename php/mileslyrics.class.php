@@ -425,7 +425,7 @@ class MilesLyrics{
 						</div>
 						<div style="clear:both"></div>
 						</form>
-						<input type="button" id="buttonUploadImgAlbum" data-id_album="'.$id_album.'" value="Upload" />
+						<a href="#" class="btn btn-success" id="buttonUploadImgAlbum" data-id_album="'.$id_album.'">'._ADMIN_SEND.'</a>
 						<div style="clear:both"></div>
 						<p class="file-return"></p>
 						<div id="loading"></div>
@@ -462,7 +462,7 @@ class MilesLyrics{
 					if($i<10) $option .= '0';;
 					$option .= $i.'</option>';
 				}
-				$return .= '<p>
+				$return .= '<p class="p_tracks">
 							<label><select class="create_track_select" disabled>'.$option.'</select></label>
 							<input type="text" class="form-control create_track_name" value="'.str_replace('"','&quot;',$track['name']).'" disabled="" />
 							<a href="#" class="btn btn-default create_track_edit">'._ADMIN_EDIT.'</a>
@@ -589,8 +589,6 @@ class MilesLyrics{
 					<a href="#" class="btn btn-success" id="create_lyrics_button" data-id_track="0" data-id_lyrics="0">'._ADMIN_OK.'</a>
 					<a href="#" class="btn btn-warning" id="create_lyrics_button_cancel">'._ADMIN_CANCEL.'</a>
 				</div>';
-					// <input type="button" id="create_lyrics_button" value="'._ADMIN_OK.'" data-id_track="0" data-id_lyrics="0" />
-					// <input type="button" id="create_lyrics_button_cancel" value="'._ADMIN_CANCEL.'" />
 		return $html;
 	}
 
@@ -668,9 +666,6 @@ class MilesLyrics{
 		$track = $infos['data'][0]['track'];
 		$pos = $infos['data'][0]['pos'];
 		if($pos < 10){$pos = '0'.$pos;}
-		// $return .= '<h2><b>'.$artist.'</b> - <i>'.$album.'</i></h2>';
-		// $return .= '<h3>'.$pos.' - '.$track.'</h3>';
-		// $return .= $video.'<p>'.$text.'</p>';
 		$return .= '<div class="jumbotron">';
 		$return .= '<h3><b>'.$artist.'</b> - <i>'.$album.'</i></h3>';
 		$return .= '<h4>'.$pos.' - '.$track.'</h4>';

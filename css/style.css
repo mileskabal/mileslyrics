@@ -179,6 +179,7 @@ position: relative;
 width: 125px;
 float: left;
 margin-right: 5px;
+padding-top: 6px;
 }
 #admin .input-file-trigger {
 border: 1px solid transparent;

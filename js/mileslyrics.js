@@ -306,7 +306,7 @@ function createLyrics(button){
 				$('#create_lyrics_button').data('id_track',id_track);
 				$('#create_lyrics_button').data('id_lyrics',id_lyrics);
 				$('#create_lyrics').slideDown();
-				$('#create_tracks_div p').not($(button).parent()).slideUp();
+				$('#create_tracks_div p.p_tracks').not($(button).parent()).slideUp();
 			}
 		}
 	});
